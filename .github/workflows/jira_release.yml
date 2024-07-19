@@ -22,7 +22,7 @@ jobs:
       id: check_same_commit
       run: |
         RELEASE_BRANCH=${{ github.ref }}
-        MAIN_COMMIT=$(git rev-parse origin/main)
+        MAIN_COMMIT=$(git rev-parse refs/heads/main)
         RELEASE_COMMIT=$(git rev-parse $RELEASE_BRANCH)
 
         echo "main_commit=$MAIN_COMMIT" >> $GITHUB_ENV
