@@ -23,6 +23,7 @@ public class App {
         log.info("Java app started");
     }
 
+
     public String getStatus() {
         return "OK";
     }
