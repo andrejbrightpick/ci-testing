@@ -80,7 +80,7 @@ jobs:
               --header 'Accept: application/json'   
               --header 'Content-Type: application/json' \
               --data '{
-              "name": "Release next version",
+              "name": "$JIRA_NEXT_VERSION",
               "project": $JIRA_PROJECT_KEY,
               "released": false
           }'
