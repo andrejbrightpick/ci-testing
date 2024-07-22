@@ -53,6 +53,6 @@ jobs:
             echo "The release branch has not been rebased onto the main branch."
         fi
         
-#        git checkout main
-#        git merge --ff-only $RELEASE_BRANCH
-#        git push origin main
+        git checkout main
+        git merge --ff-only $RELEASE_BRANCH
+        git push origin main
