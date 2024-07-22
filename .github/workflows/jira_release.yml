@@ -57,7 +57,7 @@ jobs:
           JIRA_RELEASE_ID=$(\
           curl \
           --request GET \
-          --header 'Accept: application/json'
+          --header 'Accept: application/json' \
           --url 'https://photoneo.atlassian.net/rest/api/3/project/$JIRA_PROJECT_KEY/versions' \
           --user 'ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN' | jq '.[] | select(.name == "$JIRA_NEXT_VERSION") | .id | tonumber') 
           
