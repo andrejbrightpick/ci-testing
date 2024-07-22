@@ -46,6 +46,15 @@ jobs:
       if: env.same_commit == 'false'
       run: |
         RELEASE_BRANCH=${{ github.ref }}
-        git checkout main
-        git merge --ff-only $RELEASE_BRANCH
-        git push origin main
+        CURRENT_MAIN_COMMIT=$(git rev-parse origin/main)
+        MERGE_BASE=$(git merge-base origin/main $RELEASE_BRANCH)
+      
+        if [ "$CURRENT_MAIN_COMMIT" = "$MERGE_BASE" ]; then
+            echo "The release branch has been rebased onto the main branch."
+        else
+            echo "The release branch has not been rebased onto the main branch."
+        fi
+        
+#        git checkout main
+#        git merge --ff-only $RELEASE_BRANCH
+#        git push origin main
