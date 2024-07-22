@@ -48,11 +48,10 @@ jobs:
         MERGE_BASE=$(git merge-base origin/main $RELEASE_BRANCH)
       
         if [ "$CURRENT_MAIN_COMMIT" = "$MERGE_BASE" ]; then
-            echo "The release branch has been rebased onto the main branch."
+            echo "The release branch $RELEASE_BRANCH has been rebased onto the main branch. Fast forward main to $RELEASE_BRANCH"
+            git checkout main
+            git merge --ff-only $RELEASE_BRANCH
+            git push origin main
         else
-            echo "The release branch has not been rebased onto the main branch."
+            echo "The release branch ${{ github.ref }} has not been rebased onto the main branch. Do nothing"
         fi
-        
-        git checkout main
-        git merge --ff-only $RELEASE_BRANCH
-        git push origin main
