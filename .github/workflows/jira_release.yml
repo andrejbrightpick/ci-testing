@@ -49,9 +49,9 @@ jobs:
         packages: "jq"
         script: |
           JIRA_PROJECT_KEY="RUN"
-          JIRA_NEXT_VERSION="Runner next version"
+          JIRA_NEXT_VERSION="Test next version"
           RELEASE_VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
-          JIRA_VERSION="Runner $RELEASE_VERSION next version"
+          JIRA_VERSION="Test $RELEASE_VERSION next version"
           
           JIRA_RELEASE_ID=$(\
           curl \
