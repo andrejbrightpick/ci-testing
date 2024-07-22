@@ -40,7 +40,7 @@ jobs:
         extra_nix_config: |
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-    - name: Mark currently merged PR as Runner next release
+    - name: Set next release
       if: env.same_commit == 'true'
       uses: workflow/nix-shell-action@v3.3.0
       env:
@@ -53,18 +53,19 @@ jobs:
           RELEASE_VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
           JIRA_VERSION="Test $RELEASE_VERSION next version"
           
+          # Get id of Jira release
           JIRA_RELEASE_ID=$(\
           curl \
           --request GET \
+          --header 'Accept: application/json'
           --url 'https://photoneo.atlassian.net/rest/api/3/project/$JIRA_PROJECT_KEY/versions' \
-          --user 'ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN' \
-          --header 'Accept: application/json' | jq '.[] | select(.name == "$JIRA_NEXT_VERSION") | .id | tonumber') 
+          --user 'ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN' | jq '.[] | select(.name == "$JIRA_NEXT_VERSION") | .id | tonumber') 
           
           if [[ $JIRA_RELEASE_ID ]]; then
             echo "Renaming release version to $JIRA_VERSION"
             
             curl --request PUT \  
-              --url 'https://your-domain.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID' \
+              --url 'https://photoneo.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID' \
               --user 'ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN' \
               --header 'Accept: application/json'   
               --header 'Content-Type: application/json' \
@@ -75,7 +76,7 @@ jobs:
             echo "Creating release $JIRA_NEXT_VERSION."
           
             curl --request POST \
-              --url 'https://your-domain.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID' \
+              --url 'https://photoneo.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID' \
               --user 'ra-github-actions-bot@brightpick.ai:${{ secrets.JIRA_TOKEN }}' \
               --header 'Accept: application/json'   
               --header 'Content-Type: application/json' \
