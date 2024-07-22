@@ -68,7 +68,7 @@ jobs:
               --user 'ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN' \
               --header 'Accept: application/json'   
               --header 'Content-Type: application/json' \
-              --data '{"name": "Test $RELEASE_VERSION next version"}'
+              --data '{"name": "Test $JIRA_VERSION next version"}'
 
           else
             echo "Jira release $JIRA_NEXT_VERSION doesn't exist."
