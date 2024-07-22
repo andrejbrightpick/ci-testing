@@ -53,5 +53,5 @@ jobs:
             git merge --ff-only $RELEASE_BRANCH
             git push origin main
         else
-            echo "The release branch ${{ github.ref }} has not been rebased onto the main branch. Do nothing"
+            echo "The release branch ${{ github.ref }} has not been rebased onto the main branch. Do nothing."
         fi
