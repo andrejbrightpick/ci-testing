@@ -6,7 +6,6 @@ on:
       - 'release/*'
 
 
-
 jobs:
   check-release:
     runs-on: ubuntu-latest
@@ -34,13 +33,59 @@ jobs:
         else
           echo "same_commit=false" >> $GITHUB_ENV
         fi
+        
+    - name: Install Nix
+      uses: cachix/install-nix-action@v18
+      with:
+        extra_nix_config: |
+          access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-    - name: Rename Jira release runner
+    - name: Mark currently merged PR as Runner next release
       if: env.same_commit == 'true'
-      run: |
-        # Add your logic to rename the Jira release runner here
-        echo "Renaming Jira release runner"
-        # This can be done via a script or API call to Jira
+      uses: workflow/nix-shell-action@v3.3.0
+      env:
+        JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+      with:
+        packages: "jq"
+        script: |
+          JIRA_PROJECT_KEY="RUN"
+          JIRA_NEXT_VERSION="Runner next version"
+          RELEASE_VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
+          JIRA_VERSION="Runner $RELEASE_VERSION next version"
+          
+          JIRA_RELEASE_ID=$(\
+          curl \
+          --request GET \
+          --url 'https://photoneo.atlassian.net/rest/api/3/project/$JIRA_PROJECT_KEY/versions' \
+          --user 'ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN' \
+          --header 'Accept: application/json' | jq '.[] | select(.name == "Test next release") | .id | tonumber') 
+          
+          if [[ $JIRA_RELEASE_ID ]]; then
+            echo "Renaming release version to $JIRA_VERSION"
+            
+            curl --request PUT \  
+              --url 'https://your-domain.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID' \
+              --user 'ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN' \
+              --header 'Accept: application/json'   
+              --header 'Content-Type: application/json' \
+              --data '{"name": "Test $RELEASE_VERSION next version"}'
+
+          else
+            echo "Jira release $JIRA_NEXT_VERSION doesn't exist."
+            echo "Creating release $JIRA_NEXT_VERSION."
+          
+            curl --request POST \
+              --url 'https://your-domain.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID' \
+              --user 'ra-github-actions-bot@brightpick.ai:${{ secrets.JIRA_TOKEN }}' \
+              --header 'Accept: application/json'   
+              --header 'Content-Type: application/json' \
+              --data '{
+              "name": "Release next version",
+              "project": $JIRA_PROJECT_KEY,
+              "released": false
+          }'
+          fi
+            
 
     - name: Fast-forward main to release branch
       if: env.same_commit == 'false'
@@ -55,5 +100,5 @@ jobs:
             git merge --ff-only $RELEASE_BRANCH
             git push origin main
         else
-            echo "The release branch ${{ github.ref }} has not been rebased onto the main branch. Do nothing."
+            echo "The release branch ${{ github.ref }} has not been rebased onto the main branch. Do nothing"
         fi
