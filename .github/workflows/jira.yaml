@@ -31,7 +31,7 @@ jobs:
         if: ${{ contains(github.ref, 'release') }}
         run: |
           VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
-          echo "release-version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "release-version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create release
         if: ${{ contains(github.ref, 'release') }}
@@ -57,7 +57,7 @@ jobs:
         with:
           packages: "jira-cli-go"
           script: |
-            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner team developers' --force
+            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
 
             for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
             do
@@ -72,7 +72,7 @@ jobs:
         with:
           packages: "jira-cli-go"
           script: |
-            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner team developers' --force
+            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
         
             VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
         
