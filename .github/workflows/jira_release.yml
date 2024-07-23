@@ -77,14 +77,13 @@ jobs:
           
           else
             echo "$JIRA_NEXT_RELEASE doesn't exist."
-            echo "Creating $JIRA_NEXT_RELEASE."
-          
-            curl --request POST \
-              --url 'https://photoneo.atlassian.net/rest/api/3/version' \
-              --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \
-              --header 'Accept: application/json' \
-              --header 'Content-Type: application/json' \
-              --data "{\"name\": \"$JIRA_NEXT_RELEASE\", \"project\": \"$JIRA_PROJECT_KEY\", \"released\": false}"
+          #  echo "Creating $JIRA_NEXT_RELEASE."
+          #  curl --request POST \
+          #    --url 'https://photoneo.atlassian.net/rest/api/3/version' \
+          #    --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \
+          #    --header 'Accept: application/json' \
+          #    --header 'Content-Type: application/json' \
+          #    --data "{\"name\": \"$JIRA_NEXT_RELEASE\", \"project\": \"$JIRA_PROJECT_KEY\", \"released\": false}"
           fi
 
     - name: Fast-forward main to release branch
