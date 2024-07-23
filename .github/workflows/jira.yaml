@@ -74,9 +74,9 @@ jobs:
           script: |
             jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
         
-            VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
+            VERSION="Test ${{ steps.get_release_version.outputs.release-versions }}"
         
             for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
             do
-                jira issue edit $i --fix-version "Test $VERSION" --no-input
+                jira issue edit $i --fix-version "$VERSION" --no-input
             done
