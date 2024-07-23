@@ -8,8 +8,8 @@ on:
     branches:
       - main
       - release/*
-    types:
-      - closed
+#    types:
+#      - closed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -44,7 +44,6 @@ jobs:
           release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
 
       - name: Testing output
-        id: get_release_version
         if: ${{ contains(github.ref, 'release') }}
         run: |
           echo "${{ steps.get_release_version.outputs.release-version }}.outputs.release-version }}"
