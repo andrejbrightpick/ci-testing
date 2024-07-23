@@ -58,6 +58,7 @@ jobs:
         with:
           packages: "jira-cli-go"
           script: |
+            set -uvx
             jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
 
             for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
