@@ -19,10 +19,7 @@ jobs:
 
     - name: Check if release branch is on the same commit as origin/main
       id: check_same_commit
-      run: |
-        
-        set -uv
-        
+      run: |        
         RELEASE_BRANCH=${{ github.ref }}
         MAIN_COMMIT=$(git rev-parse origin/main)
         RELEASE_COMMIT=$(git rev-parse $RELEASE_BRANCH)
@@ -51,13 +48,12 @@ jobs:
       with:
         packages: "jq"
         script: |
+          set -uvx
           COMPONENT_NAME="Test"
           JIRA_PROJECT_KEY="RUN"
           JIRA_NEXT_RELEASE="$COMPONENT_NAME next release"
           RELEASE_VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
           JIRA_VERSION="$COMPONENT_NAME $RELEASE_VERSION next release"
-          
-          set -uv
           
           # Get id of Jira release
           JIRA_RELEASE_ID=$(\
