@@ -33,15 +33,15 @@ jobs:
           VERSION=$(echo "${{ github.base_ref }}" | sed -n 's|^release/||p')
           echo "release-version=$VERSION" >> $GITHUB_OUTPUT
 
-#      - name: Create release
-##        if: ${{ contains(github.ref, 'release') }}
-#        uses: StalemateInc/jira-release-action@v1.2.1
-#        with:
-#          email: "ra-github-actions-bot@brightpick.ai"
-#          api_token: ${{ secrets.JIRA_TOKEN }}
-#          subdomain: "photoneo"
-#          jira_project: "RUN"
-#          release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
+      - name: Create release
+        if: ${{ contains(github.ref, 'release') }}
+        uses: StalemateInc/jira-release-action@v1.2.1
+        with:
+          email: "ra-github-actions-bot@brightpick.ai"
+          api_token: ${{ secrets.JIRA_TOKEN }}
+          subdomain: "photoneo"
+          jira_project: "RUN"
+          release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
 
       - name: Testing output
         if: ${{ contains(github.base_ref, 'release') }}
