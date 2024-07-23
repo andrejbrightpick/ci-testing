@@ -39,7 +39,7 @@ jobs:
         with:
           email: "ra-github-actions-bot@brightpick.ai"
           api_token: ${{ secrets.JIRA_TOKEN }}
-          subdomain: "photoneo.atlassian.net"
+          subdomain: "photoneo"
           jira_project: "RUN"
           release_name: "Test ${{ steps.get_release_version.outputs.release-versions }}"
 
