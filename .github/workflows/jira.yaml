@@ -8,8 +8,8 @@ on:
     branches:
       - main
       - release/*
-#    types:
-#      - closed
+    types:
+      - open
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
