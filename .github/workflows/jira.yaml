@@ -2,7 +2,6 @@
 
 name: Jira on PR
 
-# yamllint disable-line rule:truthy
 on:
   pull_request:
     branches:
@@ -58,8 +57,13 @@ jobs:
         with:
           packages: "jira-cli-go"
           script: |
-            set -uvx
-            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
+            jira init \
+            --installation 'cloud' \
+            --server 'https://photoneo.atlassian.net' \
+            --login 'ra-github-actions-bot@brightpick.ai' \
+            --project 'RUN' \
+            --board '🤖 Runner developers' \
+            --force
 
             for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
             do
@@ -74,7 +78,12 @@ jobs:
         with:
           packages: "jira-cli-go"
           script: |
-            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
+            jira init \
+            --installation 'cloud' \
+            --server 'https://photoneo.atlassian.net' \
+            --login 'ra-github-actions-bot@brightpick.ai' \
+            --project 'RUN' \
+            --board '🤖 Runner developers' --force
 
             set -uvx
             VERSION="Test ${{ steps.get_release_version.outputs.release-version }}"
