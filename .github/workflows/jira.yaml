@@ -34,7 +34,7 @@ jobs:
           echo "release-version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create release
-        if: ${{ contains(github.ref, 'release') }}
+        if: ${{ contains(github.base_ref, 'release') }}
         uses: StalemateInc/jira-release-action@v1.2.1
         with:
           email: "ra-github-actions-bot@brightpick.ai"
