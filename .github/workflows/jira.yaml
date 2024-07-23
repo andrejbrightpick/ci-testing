@@ -38,7 +38,7 @@ jobs:
         uses: StalemateInc/jira-release-action@v1.2.1
         with:
           email: "ra-github-actions-bot@brightpick.ai"
-          api-token: ${{ secrets.JIRA_TOKEN }}
+          api_token: ${{ secrets.JIRA_TOKEN }}
           subdomain: "photoneo.atlassian.net"
           jira_project: "RUN"
           release_name: "Test ${{ steps.get_release_version.outputs.release-versions }}"
