@@ -46,6 +46,7 @@ jobs:
       - name: Testing output
 #        if: ${{ contains(github.ref, 'release') }}
         run: |
+          echo "${{ github.ref }}"
           echo "${{ steps.get_release_version.outputs.release-version }}"
 
 #      - name: Install Nix
