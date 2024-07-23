@@ -44,12 +44,6 @@ jobs:
           release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
           create: true
 
-      - name: Testing output
-        if: ${{ contains(github.base_ref, 'release') }}
-        run: |
-          echo "${{ github.base_ref }}"
-          echo "${{ steps.get_release_version.outputs.release-version }}"
-
 #      - name: Install Nix
 #        uses: cachix/install-nix-action@v18
 #        with:
