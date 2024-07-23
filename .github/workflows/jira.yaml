@@ -28,13 +28,13 @@ jobs:
 
       - name: Get release version
         id: get_release_version
-        if: ${{ contains(github.ref, 'release') }}
+#        if: ${{ contains(github.ref, 'release') }}
         run: |
           VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
           echo "release-version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create release
-        if: ${{ contains(github.ref, 'release') }}
+#        if: ${{ contains(github.ref, 'release') }}
         uses: StalemateInc/jira-release-action@v1.2.1
         with:
           email: "ra-github-actions-bot@brightpick.ai"
@@ -43,41 +43,47 @@ jobs:
           jira_project: "RUN"
           release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
 
-      - name: Install Nix
-        uses: cachix/install-nix-action@v18
-        with:
-          extra_nix_config: |
-            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
-
-      - name: Mark currently merged PR as Runner next release
-        if: ${{ contains(github.ref, 'main') }}
-        uses: workflow/nix-shell-action@v3.3.0
-        env:
-          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
-        with:
-          packages: "jira-cli-go"
-          script: |
-            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
-
-            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
-            do
-                jira issue edit $i --fix-version "Test next release" --no-input
-            done
-
-      - name: Mark currently merged PR as "Test ${{ steps.get_release_version.outputs.release-versions }}"
+      - name: Testing output
+        id: get_release_version
 #        if: ${{ contains(github.ref, 'release') }}
-        uses: workflow/nix-shell-action@v3.3.0
-        env:
-          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
-        with:
-          packages: "jira-cli-go"
-          script: |
-            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
-            
-            set -uvx
-            VERSION="Test ${{ steps.get_release_version.outputs.release-versions }}"
-        
-            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
-            do
-                jira issue edit $i --fix-version "$VERSION" --no-input
-            done
+        run: |
+          echo "${{ steps.get_release_version.outputs.release-version }}"
+
+#      - name: Install Nix
+#        uses: cachix/install-nix-action@v18
+#        with:
+#          extra_nix_config: |
+#            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Mark currently merged PR as Runner next release
+#        if: ${{ contains(github.ref, 'main') }}
+#        uses: workflow/nix-shell-action@v3.3.0
+#        env:
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+#        with:
+#          packages: "jira-cli-go"
+#          script: |
+#            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
+#
+#            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
+#            do
+#                jira issue edit $i --fix-version "Test next release" --no-input
+#            done
+#
+#      - name: Mark currently merged PR as "Test ${{ steps.get_release_version.outputs.release-versions }}"
+##        if: ${{ contains(github.ref, 'release') }}
+#        uses: workflow/nix-shell-action@v3.3.0
+#        env:
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+#        with:
+#          packages: "jira-cli-go"
+#          script: |
+#            jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
+#
+#            set -uvx
+#            VERSION="Test ${{ steps.get_release_version.outputs.release-versions }}"
+#
+#            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
+#            do
+#                jira issue edit $i --fix-version "$VERSION" --no-input
+#            done
