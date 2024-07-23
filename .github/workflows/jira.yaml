@@ -47,7 +47,7 @@ jobs:
         id: get_release_version
 #        if: ${{ contains(github.ref, 'release') }}
         run: |
-          echo "${{ steps.get_release_version.outputs.release-version }}"
+          echo "${{ steps.get_release_version.outputs.release-version }}.outputs.release-version }}"
 
 #      - name: Install Nix
 #        uses: cachix/install-nix-action@v18
