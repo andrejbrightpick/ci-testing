@@ -35,7 +35,7 @@ jobs:
 
       - name: Create release
         if: ${{ contains(github.ref, 'release') }}
-        uses: StalemateInc/jira-release-action@latest
+        uses: StalemateInc/jira-release-action@v1.2.1
         with:
           email: "ra-github-actions-bot@brightpick.ai"
           api-token: ${{ secrets.JIRA_TOKEN }}
