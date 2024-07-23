@@ -41,7 +41,7 @@ jobs:
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
     - name: Set next release
-      if: env.same_commit == 'true'
+#      if: env.same_commit == 'true'
       uses: workflow/nix-shell-action@v3.3.0
       env:
         JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
@@ -53,6 +53,8 @@ jobs:
           JIRA_NEXT_RELEASE="$COMPONENT_NAME next release"
           RELEASE_VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
           JIRA_VERSION="$COMPONENT_NAME $RELEASE_VERSION next release"
+          
+          set -uv
           
           # Get id of Jira release
           JIRA_RELEASE_ID=$(\
