@@ -33,20 +33,20 @@ jobs:
           VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
           echo "release-version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Create release
-#        if: ${{ contains(github.ref, 'release') }}
-        uses: StalemateInc/jira-release-action@v1.2.1
-        with:
-          email: "ra-github-actions-bot@brightpick.ai"
-          api_token: ${{ secrets.JIRA_TOKEN }}
-          subdomain: "photoneo"
-          jira_project: "RUN"
-          release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
+#      - name: Create release
+##        if: ${{ contains(github.ref, 'release') }}
+#        uses: StalemateInc/jira-release-action@v1.2.1
+#        with:
+#          email: "ra-github-actions-bot@brightpick.ai"
+#          api_token: ${{ secrets.JIRA_TOKEN }}
+#          subdomain: "photoneo"
+#          jira_project: "RUN"
+#          release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
 
       - name: Testing output
 #        if: ${{ contains(github.ref, 'release') }}
         run: |
-          echo "${{ steps.get_release_version.outputs.release-version }}.outputs.release-version }}"
+          echo "${{ steps.get_release_version.outputs.release-version }}"
 
 #      - name: Install Nix
 #        uses: cachix/install-nix-action@v18
