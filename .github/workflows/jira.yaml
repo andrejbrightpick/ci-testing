@@ -42,6 +42,7 @@ jobs:
           subdomain: "photoneo"
           jira_project: "RUN"
           release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
+          create: true
 
       - name: Testing output
         if: ${{ contains(github.base_ref, 'release') }}
