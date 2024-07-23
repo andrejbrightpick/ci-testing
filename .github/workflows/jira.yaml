@@ -64,7 +64,7 @@ jobs:
                 jira issue edit $i --fix-version "Runner next release" --no-input
             done
 
-      - name: Mark currently merged PR as "Runner ${{ steps.get_release_version.outputs.release-versions }}"
+      - name: Mark currently merged PR as "Test ${{ steps.get_release_version.outputs.release-versions }}"
         if: ${{ contains(github.ref, 'release') }}
         uses: workflow/nix-shell-action@v3.3.0
         env:
@@ -78,5 +78,5 @@ jobs:
         
             for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
             do
-                jira issue edit $i --fix-version "Runner $VERSION" --no-input
+                jira issue edit $i --fix-version "Test $VERSION" --no-input
             done
