@@ -41,7 +41,7 @@ jobs:
           api_token: ${{ secrets.JIRA_TOKEN }}
           subdomain: "photoneo"
           jira_project: "RUN"
-          release_name: "Test ${{ steps.get_release_version.outputs.release-versions }}"
+          release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
 
       - name: Install Nix
         uses: cachix/install-nix-action@v18
