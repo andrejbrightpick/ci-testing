@@ -56,14 +56,14 @@ jobs:
           JIRA_VERSION="$COMPONENT_NAME $RELEASE_VERSION next release"
           
           # Get id of Jira release
-          JIRA_RELEASE_ID=$(\
-          curl \
-            --request GET \
-            --header 'Accept: application/json' \
-            --header 'Content-Type: application/json' \
-            --url "https://photoneo.atlassian.net/rest/api/3/project/$JIRA_PROJECT_KEY/versions" \
-            --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN"           
-            | jq -r --arg version "$JIRA_NEXT_RELEASE" '.[] | select(.name == $version) | .id | tonumber')
+            JIRA_RELEASE_ID=$(\
+            curl \
+              --request GET \
+              --header 'Accept: application/json' \
+              --header 'Content-Type: application/json' \
+              --url "https://photoneo.atlassian.net/rest/api/3/project/$JIRA_PROJECT_KEY/versions" \
+              --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \
+              | jq -r --arg version "$JIRA_NEXT_RELEASE" '.[] | select(.name == $version) | .id | tonumber')
           
           if [[ $JIRA_RELEASE_ID ]]; then
             echo "Renaming release version to $JIRA_VERSION"
