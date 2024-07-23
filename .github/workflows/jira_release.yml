@@ -35,6 +35,7 @@ jobs:
         fi
         
     - name: Install Nix
+      if: env.same_commit == 'true'
       uses: cachix/install-nix-action@v18
       with:
         extra_nix_config: |
