@@ -20,6 +20,9 @@ jobs:
     - name: Check if release branch is on the same commit as origin/main
       id: check_same_commit
       run: |
+        
+        set -uv
+        
         RELEASE_BRANCH=${{ github.ref }}
         MAIN_COMMIT=$(git rev-parse origin/main)
         RELEASE_COMMIT=$(git rev-parse $RELEASE_BRANCH)
