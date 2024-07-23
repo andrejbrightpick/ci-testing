@@ -28,9 +28,9 @@ jobs:
 
       - name: Get release version
         id: get_release_version
-#        if: ${{ contains(github.ref, 'release') }}
+        if: ${{ contains(github.base_ref, 'release') }}
         run: |
-          VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
+          VERSION=$(echo "${{ github.base_ref }}" | sed -n 's|^release/||p')
           echo "release-version=$VERSION" >> $GITHUB_OUTPUT
 
 #      - name: Create release
@@ -44,7 +44,7 @@ jobs:
 #          release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
 
       - name: Testing output
-#        if: ${{ contains(github.ref, 'release') }}
+        if: ${{ contains(github.base_ref, 'release') }}
         run: |
           echo "${{ github.base_ref }}"
           echo "${{ steps.get_release_version.outputs.release-version }}"
