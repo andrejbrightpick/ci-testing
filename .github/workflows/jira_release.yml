@@ -65,6 +65,7 @@ jobs:
             --user "ra-github-actions-bot@brightpick.ai:${{ secrets.JIRA_TOKEN }}")
                   
           echo $JIRA_RELEASE_ID
+          
 #            | jq -r --arg version "$JIRA_NEXT_RELEASE" '.[] | select(.name == $version) | .id | tonumber')
           
 #          if [[ $JIRA_RELEASE_ID ]]; then
