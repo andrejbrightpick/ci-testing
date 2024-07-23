@@ -65,7 +65,7 @@ jobs:
                 jira issue edit $i --fix-version "Test next release" --no-input
             done
 
-      - name: Mark currently merged PR as "Test ${{ steps.get_release_version.outputs.release-versions }}"
+      - name: Mark currently merged PR as "Test ${{ steps.get_release_version.outputs.release-version }}"
 #        if: ${{ contains(github.ref, 'release') }}
         uses: workflow/nix-shell-action@v3.3.0
         env:
@@ -76,7 +76,7 @@ jobs:
             jira init --installation 'cloud' --server 'https://photoneo.atlassian.net' --login 'ra-github-actions-bot@brightpick.ai' --project 'RUN'  --board '🤖 Runner developers' --force
 
             set -uvx
-            VERSION="Test ${{ steps.get_release_version.outputs.release-versions }}"
+            VERSION="Test ${{ steps.get_release_version.outputs.release-version }}"
 
             for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
             do
