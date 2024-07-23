@@ -31,7 +31,7 @@ jobs:
         if: ${{ contains(github.ref, 'release') }}
         run: |
           VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
-          echo "release-version=$VERSION >> $GITHUB_OUTPUT
+          echo "release-version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Create release
         if: ${{ contains(github.ref, 'release') }}
