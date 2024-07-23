@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   merged:
-    if: github.event.pull_request.merged == true
+#    if: github.event.pull_request.merged == true
     name: Jira
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -28,13 +28,13 @@ jobs:
 
       - name: Get release version
         id: get_release_version
-        if: ${{ contains(github.ref, 'release') }}
+#        if: ${{ contains(github.ref, 'release') }}
         run: |
           VERSION=$(echo "${{ github.ref }}" | sed -n 's|^refs/heads/release/||p')
           echo "release-version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Create release
-        if: ${{ contains(github.ref, 'release') }}
+#        if: ${{ contains(github.ref, 'release') }}
         uses: StalemateInc/jira-release-action@v1.2.1
         with:
           email: "ra-github-actions-bot@brightpick.ai"
@@ -44,7 +44,7 @@ jobs:
           release_name: "Test ${{ steps.get_release_version.outputs.release-version }}"
 
       - name: Testing output
-        if: ${{ contains(github.ref, 'release') }}
+#        if: ${{ contains(github.ref, 'release') }}
         run: |
           echo "${{ steps.get_release_version.outputs.release-version }}.outputs.release-version }}"
 
