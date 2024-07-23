@@ -8,8 +8,8 @@ on:
     branches:
       - main
       - release/*
-#    types:
-#      - closed
+    types:
+      - closed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   merged:
-#    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     name: Jira
     runs-on: ubuntu-latest
     timeout-minutes: 15
