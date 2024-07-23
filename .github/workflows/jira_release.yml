@@ -84,7 +84,7 @@ jobs:
 #              --header 'Accept: application/json' \
 #              --header 'Content-Type: application/json' \
 #              --data "{\"name\": \"$JIRA_NEXT_RELEASE\", \"project\": \"$JIRA_PROJECT_KEY\", \"released\": false}"
-#          fi
+          fi
 
     - name: Fast-forward main to release branch
       if: env.same_commit == 'false'
