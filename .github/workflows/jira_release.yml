@@ -74,7 +74,7 @@ jobs:
               --header 'Accept: application/json' \
               --header 'Content-Type: application/json' \
               --data "{\"name\": \"$JIRA_VERSION\"}"
-#
+          fi
 #          else
 #            echo "$JIRA_NEXT_RELEASE doesn't exist."
 #            echo "Creating $JIRA_NEXT_RELEASE."
@@ -84,7 +84,6 @@ jobs:
 #              --header 'Accept: application/json' \
 #              --header 'Content-Type: application/json' \
 #              --data "{\"name\": \"$JIRA_NEXT_RELEASE\", \"project\": \"$JIRA_PROJECT_KEY\", \"released\": false}"
-          fi
 
     - name: Fast-forward main to release branch
       if: env.same_commit == 'false'
