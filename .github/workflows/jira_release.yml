@@ -63,8 +63,8 @@ jobs:
             --header 'Content-Type: application/json' \
             --url "https://photoneo.atlassian.net/rest/api/3/project/$JIRA_PROJECT_KEY/versions" \
             --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \
-            | jq -r --arg version "$JIRA_NEXT_VERSION" '.[] | select(.name == $version) | .id | tonumber')
-                    
+            | jq -r --arg version "$JIRA_NEXT_RELEASE" '.[] | select(.name == $version) | .id | tonumber')
+          
           if [[ $JIRA_RELEASE_ID ]]; then
             echo "Renaming release version to $JIRA_VERSION"
           
@@ -76,15 +76,15 @@ jobs:
               --data "{\"name\": \"$JIRA_VERSION\"}"
           
           else
-            echo "$JIRA_NEXT_VERSION doesn't exist."
-            echo "Creating $JIRA_NEXT_VERSION."
+            echo "$JIRA_NEXT_RELEASE doesn't exist."
+            echo "Creating $JIRA_NEXT_RELEASE."
           
             curl --request POST \
               --url 'https://photoneo.atlassian.net/rest/api/3/version' \
               --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \
               --header 'Accept: application/json' \
               --header 'Content-Type: application/json' \
-              --data "{\"name\": \"$JIRA_NEXT_VERSION\", \"project\": \"$JIRA_PROJECT_KEY\", \"released\": false}"
+              --data "{\"name\": \"$JIRA_NEXT_RELEASE\", \"project\": \"$JIRA_PROJECT_KEY\", \"released\": false}"
           fi
 
     - name: Fast-forward main to release branch
