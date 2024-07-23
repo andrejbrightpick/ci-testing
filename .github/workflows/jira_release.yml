@@ -34,14 +34,14 @@ jobs:
         fi
         
     - name: Install Nix
-#      if: env.same_commit == 'true'
+      if: env.same_commit == 'true'
       uses: cachix/install-nix-action@v18
       with:
         extra_nix_config: |
           access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
     - name: Set next release
-#      if: env.same_commit == 'true'
+      if: env.same_commit == 'true'
       uses: workflow/nix-shell-action@v3.3.0
       env:
         JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
@@ -62,21 +62,18 @@ jobs:
             --header 'Accept: application/json' \
             --header 'Content-Type: application/json' \
             --url "https://photoneo.atlassian.net/rest/api/3/project/$JIRA_PROJECT_KEY/versions" \
-            --user "ra-github-actions-bot@brightpick.ai:${{ secrets.JIRA_TOKEN }}")
-                  
-          echo $JIRA_RELEASE_ID
+            --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \          
+            | jq -r --arg version "$JIRA_NEXT_RELEASE" '.[] | select(.name == $version) | .id | tonumber')
           
-#            | jq -r --arg version "$JIRA_NEXT_RELEASE" '.[] | select(.name == $version) | .id | tonumber')
-          
-#          if [[ $JIRA_RELEASE_ID ]]; then
-#            echo "Renaming release version to $JIRA_VERSION"
-#
-#            curl --request PUT \
-#              --url "https://photoneo.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID" \
-#              --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \
-#              --header 'Accept: application/json' \
-#              --header 'Content-Type: application/json' \
-#              --data "{\"name\": \"$JIRA_VERSION\"}"
+          if [[ $JIRA_RELEASE_ID ]]; then
+            echo "Renaming release version to $JIRA_VERSION"
+
+            curl --request PUT \
+              --url "https://photoneo.atlassian.net/rest/api/3/version/$JIRA_RELEASE_ID" \
+              --user "ra-github-actions-bot@brightpick.ai:$JIRA_API_TOKEN" \
+              --header 'Accept: application/json' \
+              --header 'Content-Type: application/json' \
+              --data "{\"name\": \"$JIRA_VERSION\"}"
 #
 #          else
 #            echo "$JIRA_NEXT_RELEASE doesn't exist."
