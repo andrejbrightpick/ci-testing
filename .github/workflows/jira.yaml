@@ -82,7 +82,7 @@ jobs:
                 jira issue edit $i --fix-version "${{ steps.define_workflow_variables.outputs.component-name }} next release" --no-input
             done
 
-      - name: Mark currently merged PR tasks as "${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release"
+      - name: Mark currently merged PR tasks as ${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release
         if: ${{ contains(github.base_ref, 'release') }}
         uses: workflow/nix-shell-action@v3.3.0
         env:
