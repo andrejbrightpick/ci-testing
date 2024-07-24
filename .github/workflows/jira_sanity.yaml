@@ -1,0 +1,21 @@
+name: Check PR Title for Valid Jira Issue
+
+on:
+  pull_request:
+    types: [opened, edited]
+    branches:
+      - main
+
+jobs:
+  check-jira-issue:
+    name: Check jira issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Jira issue in PR title
+        run: |
+          if [[ $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+') ]]; then
+            echo "Pull request title contains at least one correct Jira issue code."
+          else
+            echo "Pull request title does not contain correct Jira issue code."
+            exit 1
+          fi
