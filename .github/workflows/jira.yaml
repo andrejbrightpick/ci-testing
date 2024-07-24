@@ -95,7 +95,7 @@ jobs:
             --server 'https://photoneo.atlassian.net' \
             --login 'ra-github-actions-bot@brightpick.ai' \
             --project 'RUN' \
-            --board 'RUN board' \ 
+            --board 'RUN board' \
             --force
 
             VERSION="${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release"
