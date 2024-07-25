@@ -55,52 +55,56 @@ jobs:
           release_name: "${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release"
           create: true
 
+      - name: Debug output
+        run: |
+          echo $USER
+
       - name: Install Nix
         uses: cachix/install-nix-action@v18
         with:
           extra_nix_config: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
 
-      - name: Mark currently merged PR tasks as ${{ steps.define_workflow_variables.outputs.component-name }} next release
-        if: ${{ contains(github.base_ref, 'main') }}
-        uses: workflow/nix-shell-action@v3.3.0
-        env:
-          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
-        with:
-          packages: "jira-cli-go"
-          script: |
-            jira init \
-            --installation 'cloud' \
-            --server 'https://photoneo.atlassian.net' \
-            --login 'ra-github-actions-bot@brightpick.ai' \
-            --project 'RUN' \
-            --board 'RUN board' \
-            --force
-            
-            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
-            do
-                jira issue edit $i --fix-version "${{ steps.define_workflow_variables.outputs.component-name }} next release" --no-input
-            done
-
-      - name: Mark currently merged PR tasks as ${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release
-        if: ${{ contains(github.base_ref, 'release') }}
-        uses: workflow/nix-shell-action@v3.3.0
-        env:
-          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
-        with:
-          packages: "jira-cli-go"
-          script: |
-            jira init \
-            --installation 'cloud' \
-            --server 'https://photoneo.atlassian.net' \
-            --login 'ra-github-actions-bot@brightpick.ai' \
-            --project 'RUN' \
-            --board 'RUN board' \
-            --force
-
-            VERSION="${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release"
-
-            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
-            do
-                jira issue edit $i --fix-version "$VERSION" --no-input
-            done
+#      - name: Mark currently merged PR tasks as ${{ steps.define_workflow_variables.outputs.component-name }} next release
+#        if: ${{ contains(github.base_ref, 'main') }}
+#        uses: workflow/nix-shell-action@v3.3.0
+#        env:
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+#        with:
+#          packages: "jira-cli-go"
+#          script: |
+#            jira init \
+#            --installation 'cloud' \
+#            --server 'https://photoneo.atlassian.net' \
+#            --login 'ra-github-actions-bot@brightpick.ai' \
+#            --project 'RUN' \
+#            --board 'RUN board' \
+#            --force
+#
+#            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
+#            do
+#                jira issue edit $i --fix-version "${{ steps.define_workflow_variables.outputs.component-name }} next release" --no-input
+#            done
+#
+#      - name: Mark currently merged PR tasks as ${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release
+#        if: ${{ contains(github.base_ref, 'release') }}
+#        uses: workflow/nix-shell-action@v3.3.0
+#        env:
+#          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+#        with:
+#          packages: "jira-cli-go"
+#          script: |
+#            jira init \
+#            --installation 'cloud' \
+#            --server 'https://photoneo.atlassian.net' \
+#            --login 'ra-github-actions-bot@brightpick.ai' \
+#            --project 'RUN' \
+#            --board 'RUN board' \
+#            --force
+#
+#            VERSION="${{ steps.define_workflow_variables.outputs.component-name }} ${{ steps.define_workflow_variables.outputs.release-version }} next release"
+#
+#            for i in $(echo "${{ github.event.pull_request.title }}" | egrep -o 'RUN-[[:digit:]]+')
+#            do
+#                jira issue edit $i --fix-version "$VERSION" --no-input
+#            done
