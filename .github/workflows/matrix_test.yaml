@@ -31,5 +31,5 @@ jobs:
     needs:
      - exit_code_test
     steps:
-      run: |
-        Alles Gut! :)
+      - run: |
+          Alles Gut! :)
