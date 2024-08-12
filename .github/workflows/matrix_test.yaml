@@ -1,0 +1,21 @@
+---
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  exit_code_test:
+    name: Checkout test matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - exit_code: 1
+          - exit_code: 0
+
+    steps:
+      - name: Exit
+        run: |
+          exit ${{ matrix.exit_code }}
