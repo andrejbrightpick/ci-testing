@@ -32,4 +32,4 @@ jobs:
      - exit_code_test
     steps:
       - run: |
-          Alles Gut!
+          echo "Alles Gut!"
