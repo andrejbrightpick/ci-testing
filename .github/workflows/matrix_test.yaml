@@ -23,7 +23,13 @@ jobs:
       - name: Exit
         run: |
           exit ${{ matrix.exit_code }}
-          
+
+  fail_because_i_can:
+    name: Fail Because I Can
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          exit 1
 
   matrix_status_check:
     name: Matrix Status Check
