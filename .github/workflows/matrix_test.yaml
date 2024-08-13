@@ -15,8 +15,8 @@ jobs:
     strategy:
       matrix:
         include:
-          - exit_code: 1
-          - exit_code: 1
+          - exit_code: 0
+          - exit_code: 0
 
     steps:
       - name: Exit
