@@ -1,0 +1,40 @@
+---
+
+name: Matrix test
+
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  exit_code_test:
+    name: Checkout test matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - exit_code: 0
+          - exit_code: 0
+
+    steps:
+      - name: Exit
+        run: |
+          exit ${{ matrix.exit_code }}
+
+#  fail_because_i_can:
+#    name: Fail Because I Can
+#    runs-on: ubuntu-latest
+#    steps:
+#      - run: |
+#          exit 1
+
+  matrix_status_check:
+    name: Matrix Status Check
+    runs-on: ubuntu-latest
+    needs:
+     - exit_code_test
+    steps:
+      - run: |
+          echo "Alles Gut!"
