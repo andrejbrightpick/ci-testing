@@ -75,19 +75,19 @@ jobs:
 #              --header 'Content-Type: application/json' \
 #              --data "{\"name\": \"$JIRA_VERSION\"}"
 #          fi
-#
-#    - name: Fast-forward main to release branch
-#      if: env.same_commit == 'false'
-#      run: |
-#        RELEASE_BRANCH=${{ github.ref }}
-#        CURRENT_MAIN_COMMIT=$(git rev-parse origin/main)
-#        MERGE_BASE=$(git merge-base origin/main $RELEASE_BRANCH)
-#
-#        if [ "$CURRENT_MAIN_COMMIT" = "$MERGE_BASE" ]; then
-#            echo "The release branch $RELEASE_BRANCH has been rebased onto the main branch. Fast forward main to $RELEASE_BRANCH"
-#            git checkout main
-#            git merge --ff-only $RELEASE_BRANCH
-#            git push origin main
-#        else
-#            echo "The release branch ${{ github.ref }} has not been rebased onto the main branch. Do nothing"
-#        fi
+
+    - name: Fast-forward main to release branch
+      if: env.same_commit == 'false'
+      run: |
+        RELEASE_BRANCH=${{ github.ref }}
+        CURRENT_MAIN_COMMIT=$(git rev-parse origin/main)
+        MERGE_BASE=$(git merge-base origin/main $RELEASE_BRANCH)
+
+        if [ "$CURRENT_MAIN_COMMIT" = "$MERGE_BASE" ]; then
+            echo "The release branch $RELEASE_BRANCH has been rebased onto the main branch. Fast forward main to $RELEASE_BRANCH"
+            git checkout main
+            git merge --ff-only $RELEASE_BRANCH
+            git push origin main
+        else
+            echo "The release branch ${{ github.ref }} has not been rebased onto the main branch. Do nothing"
+        fi
